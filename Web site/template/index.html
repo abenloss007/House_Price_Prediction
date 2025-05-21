@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Price vs Market Time Analysis</title>
+    <style>
+        body {
+            /*background-image: url('/Web%20site/image.png');*/
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+
+        h1 {
+            color: black;
+            font-size: 2.5em;
+        }
+
+        h2 {
+            color: black;
+            font-size: 1.5em;
+        }
+
+        input[type="number"] {
+            width: 90%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: black;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #buttonChange {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #buttonChange:hover {
+            background-color: lightblue;
+        }
+
+        .form-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        form h2 {
+            grid-column: span 2;
+            text-align: left;
+            font-size: 1.2em;
+            margin-top: 20px;
+            margin-bottom: 0;
+        }
+
+        .form-section {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .form-section label {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .prediction-container {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        h4 {
+            color: black;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>Welcome to the Time to Sell: Home Prices and Time on Market App</h1>
+
+        <div class="container" style="justify-content: center; margin-bottom: 20px;">
+            <a href="{{ url_for('days_on_market') }}">
+                <button type="button">Predict Days on Market</button>
+            </a>
+        </div>
+
+        <h2 style="margin-bottom: 50px;">Predict the List Price for a Home</h2>
+
+        <div class="form-wrapper">
+            <form action="{{ url_for('predict_price') }}" method="POST">
+                <div class="form-section">
+                    <label>Zip Code</label>
+                    <input type="number" name="zip_code" placeholder="Your 5-digit Zip Code" required>
+                </div>
+
+                <div class="form-section">
+                    <label>Central Air (1 = Yes, 0 = No)</label>
+                    <input type="number" name="central_air" min="0" max="1" placeholder="1 or 0" required>
+                </div>
+
+                <div class="form-section">
+                    <label>Garage Spaces</label>
+                    <input type="number" name="garage_spaces" placeholder="e.g. 2" required>
+                </div>
+
+                <div class="form-section">
+                    <label>Number of Bedrooms</label>
+                    <input type="number" name="number_of_bedrooms" placeholder="e.g. 3" required>
+                </div>
+
+                <div class="form-section">
+                    <label>Number of Bathrooms</label>
+                    <input type="number" name="number_of_bathrooms" step="0.5" placeholder="e.g. 2.5" required>
+                </div>
+
+                <div class="form-section">
+                    <label>Number of Stories</label>
+                    <input type="number" name="number_stories" step="0.5" placeholder="e.g. 2" required>
+                </div>
+
+                <div class="form-section">
+                    <label>Total Livable Area (sq ft)</label>
+                    <input type="number" name="total_livable_area" placeholder="e.g. 1800" required>
+                </div>
+
+                <div class="form-section">
+                    <label>Total Area (lot size, sq ft)</label>
+                    <input type="number" name="total_area" placeholder="e.g. 4000" required>
+                </div>
+
+                <div class="form-section">
+                    <label>Year Built</label>
+                    <input type="number" name="year_built" placeholder="e.g. 1995" required>
+                </div>
+
+                <div class="form-section">
+                    <label>Has Basement (1 = Yes, 0 = No)</label>
+                    <input type="number" name="has_basements" min="0" max="1" placeholder="1 or 0" required>
+                </div>
+
+                <div class="form-section" style="grid-column: span 2;">
+                    <label>Desired Days on Market</label>
+                    <input type="number" name="days_on_market" placeholder="Your desired days on market" required>
+                </div>
+
+                <div style="grid-column: span 2; text-align: center; margin-top: 20px;">
+                    <button type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="prediction-container">
+            <h4>{{ prediction_text }}</h4>
+        </div>
+    </div>
+</body>
+</html>
